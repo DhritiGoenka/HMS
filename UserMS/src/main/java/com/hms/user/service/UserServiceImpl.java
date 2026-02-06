@@ -1,13 +1,17 @@
 package com.hms.user.service;
 
+import com.hms.user.dto.LoginDTO;
 import com.hms.user.dto.UserDTO;
 import com.hms.user.entity.User;
 import com.hms.user.exception.HmsException;
+import com.hms.user.jwt.CustomUserDetails;
+import com.hms.user.jwt.JwtUtil;
 import com.hms.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,6 +19,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @Autowired
     private UserRepository userRepository;
@@ -29,15 +36,43 @@ public class UserServiceImpl implements UserService{
         userRepository.save(userDTO.toEntity());
     }
 
-    @Override
-    public UserDTO loginUser(UserDTO userDTO) throws HmsException{
-         User user = userRepository.findByEmail(userDTO.getEmail()).orElseThrow(()->new HmsException("USER_NOT_FOUND"));
-         if(!passwordEncoder.matches(userDTO.getPassword(), user.getPassword())){
+//    @Override
+//    public UserDTO loginUser(UserDTO userDTO) throws HmsException{
+//         User user = userRepository.findByEmail(userDTO.getEmail()).orElseThrow(()->new HmsException("USER_NOT_FOUND"));
+//         if(!passwordEncoder.matches(userDTO.getPassword(), user.getPassword())){
+//             throw new HmsException("INVALID_CREDENTIALS");
+//         }
+//         user.setPassword(null);
+//         return user.toDTO();
+//    }
+
+     @Override
+       public String loginUser(LoginDTO loginDTO) throws HmsException{
+         // 1. Fetch user
+         User user = userRepository.findByEmail(loginDTO.getEmail())
+                 .orElseThrow(() -> new HmsException("USER_NOT_FOUND"));
+
+         // 2. Validate password
+         if (!passwordEncoder.matches(
+                 loginDTO.getPassword(),
+                 user.getPassword())) {
              throw new HmsException("INVALID_CREDENTIALS");
          }
-         user.setPassword(null);
-         return user.toDTO();
-    }
+
+         // 3. Build CustomUserDetails manually
+         CustomUserDetails userDetails = new CustomUserDetails(
+                 user.getId(),
+                 user.getEmail(),          // username
+                 user.getPassword(),
+                 user.getRole(),
+                 user.getName(),
+                 user.getEmail(),
+                 List.of()                 // authorities (optional)
+         );
+
+         // 4. Generate JWT
+         return jwtUtil.generateToken(userDetails);
+     }
 
     @Override
     public UserDTO getUserById(Long id) throws HmsException{
@@ -47,5 +82,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public void updateUser(UserDTO userDTO) {
 
+    }
+
+    @Override
+    public UserDTO getUser(String email) throws HmsException{
+        return userRepository.findByEmail(email).orElseThrow(()->new HmsException("USER_NOT_FOUND")).toDTO();
     }
 }
