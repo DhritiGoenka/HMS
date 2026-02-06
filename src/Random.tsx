@@ -2,7 +2,7 @@ import React from 'react'
 
 const Random = () => {
   return (
-    <div>
+    <div className='min-h-1600'>
       
     </div>
   )
