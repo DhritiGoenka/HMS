@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
 
 interface PublicRouteProps{
     children:JSX.Element
@@ -7,8 +8,10 @@ interface PublicRouteProps{
 
 const PublicRoute: React.FC<PublicRouteProps>=({children})=>{
     const token = useSelector((state:any)=>state.jwt);
+
     if(token){
-        return <Navigate to="/" />
+        const user = jwtDecode(token) as any;
+        return <Navigate to={`/${user?.role?.toLowerCase()}/dashboard`} />
     }
     return children;
 }

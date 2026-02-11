@@ -1,7 +1,7 @@
 import { Button, PasswordInput, TextInput } from '@mantine/core'
 import { IconHeartbeat } from '@tabler/icons-react'
 import {useForm} from '@mantine/form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { loginUser } from '../Api/UserApi';
 import { errorNotification, successNotification } from '../Utility/NotificationUtil';
 import { useState } from 'react';
@@ -14,6 +14,7 @@ const LoginPage = () => {
 
     const [loading,setLoading] = useState(false);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const form = useForm({
         initialValues: {
