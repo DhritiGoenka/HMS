@@ -1,24 +1,24 @@
-import { Avatar, Button, Divider, Modal, NumberInput, Select, TagsInput, TextInput } from '@mantine/core'
-import React, {useEffect, useState} from 'react'
-import { useSelector } from 'react-redux'
+import { Avatar, Button, Divider, Modal, NumberInput, Select, TextInput } from '@mantine/core'
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Table } from "@mantine/core";
 import { IconEdit } from '@tabler/icons-react';
-import {DateInput} from '@mantine/dates';
-import {bloodGroups} from '../../../Data/DropDownData';
+import { DateInput } from '@mantine/dates';
+import { doctorSpecialisations, doctorDepartment } from '../../../Data/DropDownData';
 import { useDisclosure } from '@mantine/hooks';
-import { getPatient, updatePatient } from '../../../Api/PatientProfileApi';
-import { formatDate } from '../../../Utility/DateUtility';
+import { getDoctor, updateDoctor } from '../../../Api/DoctorProfileApi';
+import {formatDate } from '../../../Utility/DateUtility';
 import { useForm } from '@mantine/form';
 import { errorNotification, successNotification } from '../../../Utility/NotificationUtil';
 
-type PatientFormValues = {
+type DoctorFormValues = {
     dob: Date | null;
     phone: string;
     address: string;
-    aadharNumber: string;
-    bloodGroup: string;
-    allergies: string[];
-    chronicDisease: string[];
+    licenseNumber: string;
+    specialisation: string;
+    department: string;
+    totalExperience: number | "";
 };
 
 const Profile = () => {
@@ -27,103 +27,85 @@ const Profile = () => {
     const [editMode, setEditMode] = useState(false);
     const [opened, {open,close}] = useDisclosure(false);
     const [profile,setProfile] = useState<any>(null);
-    
-    const form = useForm<PatientFormValues>({
+
+    const form = useForm<DoctorFormValues>({
         initialValues: {
             dob: null,
             phone: "",
             address: "",
-            aadharNumber: "",
-            bloodGroup: "",
-            allergies: [],
-            chronicDisease: []
+            licenseNumber: "",
+            specialisation: "",
+            department: "",
+            totalExperience: ""
         },
-        validate:{
-            dob: (value) => !value ? 'Date of Birth is required' : undefined,
-            phone: (value) => !value ? 'Phone Number is required' : undefined,
-            address: (value) => !value ? 'Address is required' : undefined,
-            aadharNumber: (value) => !value ? 'Aadhar Number is required' : undefined
+        validate: {
+            dob: (value) => !value ? "Date of Birth is required" : undefined,
+            phone: (value) => !value ? "Phone is required" : undefined,
+            address: (value) => !value ? "Address is required" : undefined,
+            licenseNumber: (value) => !value ? "License Number is required" : undefined,
+            specialisation: (value) => !value ? "Specialisation is required" : undefined,
+            department: (value) => !value ? "Department is required" : undefined,
         }
-    })
+    });
 
-    const handleEdit=()=>{
+    const handleEdit = () => {
         form.reset();
         form.setValues({
             ...profile,
             dob: profile?.dob ? new Date(profile.dob) : null,
-            allergies: profile?.allergies || [],
-            chronicDisease: profile?.chronicDisease || []
+            totalExperience: profile?.totalExperience ?? ""
         });
         setEditMode(true);
-    }
+    };
 
-    const handleSubmit = (values: any) =>{
+    const handleSubmit = (values: DoctorFormValues) => {
+
         const payload = {
             ...profile,
             ...values,
             id: user.profileId
-        }
-        updatePatient(payload).then((data)=>{
-            setProfile({
-                ...data,
-                allergies: Array.isArray(data.allergies)
-                    ? data.allergies
-                    : data.allergies
-                        ? data.allergies.split(",")
-                        : [],
-                chronicDisease: Array.isArray(data.chronicDisease)
-                    ? data.chronicDisease
-                    : data.chronicDisease
-                        ? data.chronicDisease.split(",")
-                        : []
+        };
+
+        updateDoctor(payload)
+            .then((data: any) => {
+
+                setProfile(data);
+
+                form.reset();
+                setEditMode(false);
+
+                successNotification("Doctor profile updated successfully");
+            })
+            .catch((err: any) => {
+                errorNotification(err.response?.errorMessage || "Update failed");
             });
-            form.reset();
-            setEditMode(false);
-            successNotification("Profile updated successfully");
-        }).catch((err)=>{
-            errorNotification(err.response.errorMessage);
-        })
-    }
+    };
 
     useEffect(() => {
         if (!user?.profileId) return;
-
-        getPatient(user.profileId)
-            .then((data) => {
-                setProfile({
-                    ...data,
-                    allergies: Array.isArray(data.allergies)
-                        ? data.allergies
-                        : data.allergies
-                            ? data.allergies.split(",")
-                            : [],
-                    chronicDisease: Array.isArray(data.chronicDisease)
-                        ? data.chronicDisease
-                        : data.chronicDisease
-                            ? data.chronicDisease.split(",")
-                            : []
-                });
+        getDoctor(user.profileId)
+            .then((data: any) => {
+                setProfile(data);
             })
             .catch(() => {
-                errorNotification("Failed to load profile");
+                errorNotification("Failed to load doctor profile");
             });
-
     }, [user?.profileId]);
-
+    
     return (
         <div className='p-10'>
             <div className='flex justify-between items-center'>
                 <div className='flex gap-5 items-center'>
                     <div className='flex flex-col items-center gap-3'>
                         <Avatar variant='filled' src="/avatar.png" alt="It's me" size={150}/> 
-                        {editMode && <Button variant='filled' size="sm" onClick={open} type="button">
+                        {editMode && <Button variant='filled' size="sm" onClick={open}>
                             Upload
                         </Button>}
                     </div>
                     
                     <div className='flex flex-col gap-3'>
-                        <div className='text-3xl font-medium text-neutral-900'>{user?.name}</div>
-                        <div className='text-xl font-medium text-neutral-700'>{user?.email}</div>
+                        <div className='text-3xl font-medium text-neutral-900'>{user.name}</div>
+                        <div className='text-xl font-medium text-neutral-700'>{user.email}</div>
                     </div>
                 </div>
                 {!editMode ?
@@ -151,7 +133,7 @@ const Profile = () => {
                     Personal Information
                 </div>
                 <Table striped stripedColor="primary.1" verticalSpacing="md" withRowBorders={false}>
-                    <Table.Tbody className="[&>tr]:!mb-3 [&_td]:w-1/2">
+                    <Table.Tbody>
                         <Table.Tr>
                             <Table.Td className='font-semibold text-xl'>Date of Birth</Table.Td>
                             <Table.Td className='text-lg'>
@@ -167,7 +149,7 @@ const Profile = () => {
                             <Table.Td className='font-semibold text-xl'>Phone</Table.Td>
                             <Table.Td className='text-lg'>
                                 { editMode ?
-                                    <NumberInput {...form.getInputProps('phone')} placeholder="Enter Phone Number" hideControls={true} maxLength={10} clampBehavior='strict'/>
+                                    <NumberInput {...form.getInputProps('phone')} placeholder='Enter phone number' hideControls={true} maxLength={10} clampBehavior='strict'/>
                                     :
                                     profile?.phone ?? '-'
                                 }
@@ -186,53 +168,50 @@ const Profile = () => {
                         </Table.Tr>
 
                         <Table.Tr>
-                            <Table.Td className='font-semibold text-xl'>Aadhar Number</Table.Td>
+                            <Table.Td className='font-semibold text-xl'>License Number</Table.Td>
                             <Table.Td className='text-lg'>
                                 { editMode ?
-                                    <NumberInput {...form.getInputProps('aadharNumber')} placeholder="Enter Aadhar Number" hideControls={true} maxLength={12} clampBehavior='strict'/>
+                                    <TextInput {...form.getInputProps('licenseNumber')} placeholder="Enter License Number"/>
                                     :
-                                    profile?.aadharNumber ?? '-'
+                                    profile?.licenseNumber ?? '-'
                                 }
                             </Table.Td>
                         </Table.Tr>
 
                         <Table.Tr>
-                            <Table.Td className='font-semibold text-xl'>Blood Group</Table.Td>
+                            <Table.Td className='font-semibold text-xl'>Specialisation</Table.Td>
                             <Table.Td className='text-lg'>
                                 { editMode ?
-                                    <Select {...form.getInputProps('bloodGroup')} data={bloodGroups} placeholder="Select Blood Group"/>
+                                    <Select data={doctorSpecialisations} {...form.getInputProps("specialisation")} placeholder='Select Specialisation' />
                                     :
-                                    bloodGroups.find(bg => bg.value === profile?.bloodGroup)?.label ?? "-"
+                                    profile?.specialisation ?? '-'
                                 }
                             </Table.Td> 
                         </Table.Tr>
 
                         <Table.Tr>
-                            <Table.Td className='font-semibold text-xl'>Allergies</Table.Td>
+                            <Table.Td className='font-semibold text-xl'>Department</Table.Td>
                             <Table.Td className='text-lg'>
                                 { editMode ?
-                                    <TagsInput {...form.getInputProps('allergies')} placeholder="Enter Allergies"/>
+                                    <Select data={doctorDepartment} {...form.getInputProps("department")} placeholder='Select Department' />
                                     :
-                                    profile?.allergies && profile.allergies.length > 0
-                                        ? profile.allergies.join(", ")
-                                        : "-"
+                                    profile?.department ?? '-'
                                 }
                             </Table.Td>
                         </Table.Tr>
 
                         <Table.Tr>
-                            <Table.Td className='font-semibold text-xl'>Chronic Disease</Table.Td>
+                            <Table.Td className='font-semibold text-xl'>Total Experience</Table.Td>
                             <Table.Td className='text-lg'>
                                 { editMode ?
-                                    <TagsInput {...form.getInputProps('chronicDisease')} placeholder="Enter Chronic Disease"/>
+                                    <NumberInput {...form.getInputProps('totalExperience')} placeholder="Enter Total Experience" hideControls={true} max={50} clampBehavior='strict'/>
                                     :
-                                    profile?.chronicDisease && profile.chronicDisease.length > 0
-                                        ? profile.chronicDisease.join(", ")
+                                    profile?.totalExperience
+                                        ? `${profile.totalExperience} years`
                                         : "-"
                                 }
                             </Table.Td>
                         </Table.Tr>
-
                     </Table.Tbody>
                 </Table>
             </div>
