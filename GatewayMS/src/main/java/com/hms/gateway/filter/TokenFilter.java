@@ -55,6 +55,7 @@ public class TokenFilter extends AbstractGatewayFilterFactory<TokenFilter.Config
                 exchange = exchange.mutate().request(r->r.header("X-Secret-Key","SECRET")).build();
             }
             catch (Exception e) {
+
                 throw new RuntimeException("Invalid or expired token", e);
             }
 
