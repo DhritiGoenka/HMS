@@ -24,6 +24,7 @@ public class UserDTO {
             message = "Password should be between 6 characters to 15 characters long and contain atleast 1 uppercase, 1 lowercase, 1 digit and 1 special character")
     private String password;
     private Roles role;
+    private Long profileId;
 
     public User toEntity(){
         return new User(
@@ -31,7 +32,8 @@ public class UserDTO {
                 this.name,
                 this.email,
                 this.password,
-                this.role
+                this.role,
+                this.profileId
         );
     }
 

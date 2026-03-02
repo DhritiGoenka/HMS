@@ -20,6 +20,7 @@ public class User {
     private String email;
     private String password;
     private Roles role;
+    private Long profileId;
 
     public UserDTO toDTO(){
         return new UserDTO(
@@ -27,7 +28,8 @@ public class User {
                 this.name,
                 this.email,
                 this.password,
-                this.role
+                this.role,
+                this.profileId
         );
     }
 }

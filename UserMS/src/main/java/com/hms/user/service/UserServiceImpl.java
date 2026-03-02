@@ -7,6 +7,7 @@ import com.hms.user.exception.HmsException;
 import com.hms.user.jwt.CustomUserDetails;
 import com.hms.user.jwt.JwtUtil;
 import com.hms.user.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService{
 
     @Autowired
@@ -26,6 +28,9 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private APIService apiService;
+
     @Override
     public void registerUser(UserDTO userDTO) throws HmsException{
         Optional<User> opt = userRepository.findByEmail(userDTO.getEmail());
@@ -33,6 +38,9 @@ public class UserServiceImpl implements UserService{
             throw new HmsException("USER_ALREADY_EXISTS");
         }
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        Long profileId = apiService.addProfile(userDTO).block();
+        System.out.println(profileId);
+        userDTO.setProfileId(profileId);
         userRepository.save(userDTO.toEntity());
     }
 
@@ -67,6 +75,7 @@ public class UserServiceImpl implements UserService{
                  user.getRole(),
                  user.getName(),
                  user.getEmail(),
+                 user.getProfileId(),
                  List.of()                 // authorities (optional)
          );
 
