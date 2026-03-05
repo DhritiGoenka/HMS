@@ -1,4 +1,4 @@
-package com.hms.profile.config;
+package com.hms.appointment.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
