@@ -51,9 +51,4 @@ public class UserAPI {
         String jwt = userService.loginUser(loginDTO);
         return ResponseEntity.ok(jwt);
     }
-
-    @GetMapping("/test")
-    public ResponseEntity<String> test(){
-        return new ResponseEntity<>("Test", HttpStatus.OK);
-    }
 }
