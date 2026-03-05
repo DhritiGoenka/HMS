@@ -34,4 +34,9 @@ public class DoctorAPI {
         return new ResponseEntity<>(doctorService.updateDoctor(doctorDTO),HttpStatus.OK);
     }
 
+    @GetMapping("/exists/{id}")
+    public ResponseEntity<Boolean> doctorExists(@PathVariable Long id) throws HmsException{
+        return new ResponseEntity<>(doctorService.doctorExists(id), HttpStatus.OK);
+    }
+
 }
