@@ -1,6 +1,7 @@
 package com.hms.profile.api;
 
 import com.hms.profile.dto.DoctorDTO;
+import com.hms.profile.dto.DoctorDropDown;
 import com.hms.profile.entity.Doctor;
 import com.hms.profile.exception.HmsException;
 import com.hms.profile.service.DoctorService;
@@ -9,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -37,6 +40,11 @@ public class DoctorAPI {
     @GetMapping("/exists/{id}")
     public ResponseEntity<Boolean> doctorExists(@PathVariable Long id) throws HmsException{
         return new ResponseEntity<>(doctorService.doctorExists(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/dropdowns")
+    public ResponseEntity<List<DoctorDropDown>> getDoctorDropdowns() throws HmsException{
+        return new ResponseEntity<>(doctorService.getDoctorDropdowns(), HttpStatus.OK);
     }
 
 }

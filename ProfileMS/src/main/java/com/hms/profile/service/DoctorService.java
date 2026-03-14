@@ -1,9 +1,12 @@
 package com.hms.profile.service;
 
 import com.hms.profile.dto.DoctorDTO;
+import com.hms.profile.dto.DoctorDropDown;
 import com.hms.profile.exception.HmsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+
+import java.util.List;
 
 public interface DoctorService {
     public Long addDoctor(DoctorDTO doctorDTO) throws HmsException;
@@ -13,4 +16,6 @@ public interface DoctorService {
     public DoctorDTO updateDoctor(DoctorDTO doctorDTO) throws HmsException;
 
     public Boolean doctorExists(Long id) throws HmsException;
+
+    public List<DoctorDropDown> getDoctorDropdowns() throws HmsException;
 }
