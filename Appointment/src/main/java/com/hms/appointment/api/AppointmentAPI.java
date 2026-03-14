@@ -35,7 +35,7 @@ public class AppointmentAPI {
         return new ResponseEntity<>(appointmentService.getAppointmentDetails(appointmentId), HttpStatus.OK);
     }
 
-    @GetMapping("get/details/{appointmentId}")
+    @GetMapping("/get/details/{appointmentId}")
     public ResponseEntity<AppointmentDetails> getAppointmentDetailsWithName(@PathVariable Long appointmentId) throws HmsException{
         return new ResponseEntity<>(appointmentService.getAppointmentDetailsWithName(appointmentId), HttpStatus.OK);
     }
