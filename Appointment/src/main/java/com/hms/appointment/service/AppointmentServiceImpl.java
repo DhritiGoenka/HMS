@@ -8,6 +8,9 @@ import com.hms.appointment.repository.AppointmentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.print.Doc;
+import java.util.List;
+
 @Service
 public class AppointmentServiceImpl implements AppointmentService{
 
@@ -85,5 +88,30 @@ public class AppointmentServiceImpl implements AppointmentService{
                 appointmentDTO.getReason(),
                 appointmentDTO.getNotes()
         );
+    }
+
+    @Override
+    public List<AppointmentDetails> getAllAppointmentsByPatientId(Long patientId) throws HmsException {
+
+        return appointmentRepo.findAllByPatientId(patientId).stream()
+                .map(appointment -> {
+                    DoctorDTO doctorDTO = profileClient.getDoctorById(appointment.getDoctorId());
+                    appointment.setDoctorName(doctorDTO.getName());
+                    return appointment;
+                }).toList();
+
+    }
+
+    @Override
+    public List<AppointmentDetails> getAllAppointmentsByDoctorId(Long doctorId) throws HmsException {
+
+        return appointmentRepo.findAllByDoctorId(doctorId).stream()
+                .map(appointment -> {
+                    PatientDTO patientDTO = profileClient.getPatientById(appointment.getPatientId());
+                    appointment.setPatientName(patientDTO.getName());
+                    appointment.setPatientEmail(patientDTO.getEmail());
+                    return appointment;
+                }).toList();
+
     }
 }

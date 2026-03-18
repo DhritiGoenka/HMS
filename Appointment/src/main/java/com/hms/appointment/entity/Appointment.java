@@ -38,4 +38,8 @@ public class Appointment {
                 notes
         );
     }
+
+    public Appointment(Long id){
+        this.id = id;
+    }
 }
