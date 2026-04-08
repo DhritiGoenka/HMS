@@ -1,6 +1,7 @@
 package com.hms.appointment.entity;
 
 import com.hms.appointment.dto.AppointmentRecordDTO;
+import com.hms.appointment.dto.RecordDetailsDTO;
 import com.hms.appointment.utility.StringListConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -37,6 +38,30 @@ public class AppointmentRecord {
                 id,
                 doctorId,
                 patientId,
+                appointment.getId(),
+                StringListConverter.convertStringToList(symptoms),
+                diagnosis,
+                referredBy,
+                referredTo,
+                StringListConverter.convertStringToList(tests),
+                notes,
+                followUpDate,
+                createdAt,
+                null
+        );
+    }
+
+    public RecordDetailsDTO toRecordDetailsDTO(){
+        return new RecordDetailsDTO(
+                id,
+                patientId,
+                doctorId,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
                 appointment.getId(),
                 StringListConverter.convertStringToList(symptoms),
                 diagnosis,

@@ -27,6 +27,7 @@ public class AppointmentRecordDTO {
     private String notes;
     private LocalDate followUpDate;
     private LocalDateTime createdAt;
+    private PrescriptionDTO prescription;
 
     public AppointmentRecord toEntity(){
         return new AppointmentRecord(
