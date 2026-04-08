@@ -15,4 +15,7 @@ public interface DoctorRepo extends CrudRepository<Doctor,Long> {
 
     @Query("SELECT d.id AS id, d.name AS name FROM Doctor d")
     List<DoctorDropDown> findAllDoctorDropdowns();
+
+    @Query("SELECT d.id AS id, d.name AS name FROM Doctor d WHERE d.id IN ?1")
+    List<DoctorDropDown> findAllDoctorDropdownsByIds(List<Long> ids);
 }

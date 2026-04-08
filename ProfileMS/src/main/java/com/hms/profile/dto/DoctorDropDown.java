@@ -4,4 +4,8 @@ public interface DoctorDropDown {
     Long getId();
 
     String getName();
+
+    String getEmail();
+
+    String getPhone();
 }
