@@ -19,6 +19,8 @@
     "@types/node": "^16.18.126",
     "dayjs": "^1.11.19",
     "jwt-decode": "^4.0.0",
+    "primeicons": "^7.0.0",
+    "primereact": "^10.9.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.3",

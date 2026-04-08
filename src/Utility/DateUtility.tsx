@@ -8,4 +8,19 @@ const formatDate = (dateString: string) => {
     return `${day} ${month} ${year}`;
 }
 
-export {formatDate};
+const formatDateWithTime = (dateString: any) =>{
+        if(!dateString) return undefined;
+        const date = new Date(dateString);
+        const options: Intl.DateTimeFormatOptions = {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',  
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true,
+        };
+        return date.toLocaleString('en-US', options);
+}
+
+export {formatDate, formatDateWithTime};

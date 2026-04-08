@@ -71,4 +71,137 @@ const doctorDepartment=[
     "Plastic Surgery"
 ];
 
-export {bloodGroups, doctorSpecialisations, doctorDepartment};
+const appointmentReasons = [
+  "General Health Checkup",
+  "Fever",
+  "Cold and Cough",
+  "Chest Pain",
+  "Heart Palpitations",
+  "Skin Rash or Allergy",
+  "Acne or Skin Problems",
+  "Headache or Migraine",
+  "Dizziness or Seizures",
+  "Joint Pain",
+  "Back or Spine Pain",
+  "Bone Injury or Fracture",
+  "Child Fever or Illness",
+  "Vaccination",
+  "Stomach Pain",
+  "Acid Reflux or Digestion Issues",
+  "Kidney Pain or Urinary Issues",
+  "Shortness of Breath",
+  "Asthma Symptoms",
+  "Hormonal Imbalance",
+  "Thyroid Problems",
+  "Diabetes Management",
+  "Eye Pain or Vision Problems",
+  "Ear Pain or Hearing Issues",
+  "Nose or Sinus Problems",
+  "Pregnancy Consultation",
+  "Menstrual Problems",
+  "Mental Health Consultation",
+  "Stress or Anxiety",
+  "Cancer Consultation",
+  "Plastic or Cosmetic Consultation",
+  "Post-Surgery Follow-up",
+  "Lab Report Review",
+  "Prescription Refill",
+  "Physiotherapy Session"
+];
+
+const symptoms = [
+  "Fever",
+  "Cold",
+  "Cough",
+  "Headache",
+  "Migraine",
+  "Chest Pain",
+  "Heart Palpitations",
+  "Shortness of Breath",
+  "Skin Rash",
+  "Allergy",
+  "Acne",
+  "Dizziness",
+  "Seizures",
+  "Joint Pain",
+  "Back Pain",
+  "Spine Pain",
+  "Bone Pain",
+  "Fracture",
+  "Stomach Pain",
+  "Acid Reflux",
+  "Indigestion",
+  "Nausea",
+  "Vomiting",
+  "Diarrhea",
+  "Kidney Pain",
+  "Urinary Issues",
+  "Asthma Symptoms",
+  "Fatigue",
+  "Weakness",
+  "Weight Loss",
+  "Weight Gain",
+  "Loss of Appetite",
+  "Eye Pain",
+  "Vision Problems",
+  "Ear Pain",
+  "Hearing Loss",
+  "Nose Blockage",
+  "Sinus Pain",
+  "Menstrual Issues",
+  "Stress",
+  "Anxiety",
+  "Depression",
+  "Sleep Problems"
+];
+
+const tests = [
+  "Blood Test",
+  "Complete Blood Count (CBC)",
+  "Blood Sugar Test",
+  "Lipid Profile",
+  "Liver Function Test (LFT)",
+  "Kidney Function Test (KFT)",
+  "Thyroid Function Test (TFT)",
+  "Urine Test",
+  "Stool Test",
+  "X-Ray",
+  "CT Scan",
+  "MRI Scan",
+  "Ultrasound",
+  "ECG",
+  "Echocardiogram",
+  "Stress Test",
+  "Pulmonary Function Test",
+  "Allergy Test",
+  "COVID-19 Test",
+  "Dengue Test",
+  "Malaria Test",
+  "Vitamin D Test",
+  "Vitamin B12 Test",
+  "Hormone Test",
+  "Biopsy",
+  "Pap Smear",
+  "Endoscopy",
+  "Colonoscopy",
+  "Eye Examination",
+  "Hearing Test"
+];
+
+const medicationFrequencies = [
+  "1-0-0",  // Morning
+  "0-1-0",  // Afternoon
+  "0-0-1",  // Night
+  "1-1-0",  // Morning + Afternoon
+  "1-0-1",  // Morning + Night
+  "0-1-1",  // Afternoon + Night
+  "1-1-1",  // Morning + Afternoon + Night
+  "2-0-0",
+  "0-2-0",
+  "0-0-2",
+  "2-2-2",
+  "1-1-1-1", // 4 times a day
+  "SOS"      // As needed
+];
+
+export {bloodGroups, doctorSpecialisations, doctorDepartment, appointmentReasons, symptoms, tests, medicationFrequencies};

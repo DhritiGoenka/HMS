@@ -8,6 +8,8 @@ import '@mantine/dates/styles.css';
 import AppRoutes from './Routes/AppRoutes';
 import { Provider } from 'react-redux';
 import Store from './Utility/Store';
+import {PrimeReactProvider} from 'primereact/api';
+import { ModalsProvider } from '@mantine/modals';
 
 const theme = createTheme({
   focusRing:"never",
@@ -36,8 +38,12 @@ function App() {
   return (
     <Provider store={Store}>
       <MantineProvider theme = {theme}>
-        <Notifications position='top-center'/>
-        <AppRoutes/>
+        <ModalsProvider>
+        <PrimeReactProvider>
+          <Notifications position='top-center'/>
+          <AppRoutes/>
+        </PrimeReactProvider>
+        </ModalsProvider>
       </MantineProvider>
     </Provider>
   );

@@ -10,6 +10,9 @@ import PatientDashboard from '../Layout/PatientDashboard';
 import PatientProfilePage from '../Pages/Patient/PatientProfilePage';
 import DoctorDashboard from '../Layout/DoctorDashboard';
 import DoctorProfilePage from '../Pages/Doctor/DoctorProfilePage';
+import PatientAppointmentPage from '../Pages/Patient/PatientAppointmentPage';
+import DoctorAppointmentPage from '../Pages/Doctor/DoctorAppointmentPage';
+import DoctorAppointmentDetailsPage from '../Pages/Doctor/DoctorAppointmentDetailsPage';
 
 const AppRoutes = () => {
   return (
@@ -27,13 +30,15 @@ const AppRoutes = () => {
           <Route path="/patient" element={<ProtectedRoute><PatientDashboard/></ProtectedRoute>}>
             <Route path="dashboard" element={<Random/>}></Route>
             <Route path="profile" element={<PatientProfilePage/>}></Route>
-            <Route path="appointments" element={<Random/>}></Route>
+            <Route path="appointments" element={<PatientAppointmentPage/>}></Route>
             <Route path="book" element={<Random/>}></Route>
           </Route>
 
           <Route path="/doctor" element={<ProtectedRoute><DoctorDashboard/></ProtectedRoute>}>
             <Route path="dashboard" element={<Random/>}></Route>
             <Route path="profile" element={<DoctorProfilePage/>}></Route>
+            <Route path="appointments" element={<DoctorAppointmentPage/>}></Route>
+            <Route path="appointments/:id" element={<DoctorAppointmentDetailsPage/>}></Route>
             <Route path="patients" element={<Random/>}></Route>
             <Route path="pharmacy" element={<Random/>}></Route>
           </Route>
