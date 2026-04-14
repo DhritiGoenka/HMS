@@ -1,0 +1,40 @@
+package com.hms.pharmacy.entity;
+
+import com.hms.pharmacy.dto.MedicineDTO;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+public class Medicine {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
+    private String dosage;
+    private MedicineCategory category;
+    private MedicineType medicineType;
+    private String manufacturer;
+    private Double unitPrice;
+    private Integer stock;
+    private LocalDateTime createdAt;
+
+    public Medicine(Long id){
+        this.id = id;
+    }
+
+    public MedicineDTO toDTO(){
+        return new MedicineDTO(
+                id, name, dosage, category, medicineType, manufacturer, unitPrice, stock,createdAt
+        );
+    }
+}

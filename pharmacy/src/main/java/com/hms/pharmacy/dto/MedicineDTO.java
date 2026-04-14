@@ -1,0 +1,39 @@
+package com.hms.pharmacy.dto;
+
+import com.hms.pharmacy.entity.Medicine;
+import com.hms.pharmacy.entity.MedicineCategory;
+import com.hms.pharmacy.entity.MedicineType;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class MedicineDTO {
+    private Long id;
+    private String name;
+    private String dosage;
+    private MedicineCategory category;
+    private MedicineType medicineType;
+    private String manufacturer;
+    private Double unitPrice;
+    private Integer stock;
+    private LocalDateTime createdAt;
+
+    public Medicine toEntity(){
+        return new Medicine(
+                id,
+                name,
+                dosage,
+                category,
+                medicineType,
+                manufacturer,
+                unitPrice,
+                stock,
+                createdAt
+        );
+    }
+}
