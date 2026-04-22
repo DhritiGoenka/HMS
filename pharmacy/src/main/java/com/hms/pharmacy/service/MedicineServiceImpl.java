@@ -17,7 +17,7 @@ import static java.util.Arrays.stream;
 @RequiredArgsConstructor
 public class MedicineServiceImpl implements MedicineService{
 
-    private MedicineRepo medicineRepo;
+    private final MedicineRepo medicineRepo;
 
     @Override
     public Long addMedicine(MedicineDTO medicineDTO) throws HmsException {
@@ -39,7 +39,7 @@ public class MedicineServiceImpl implements MedicineService{
     public void updateMedicine(MedicineDTO medicineDTO) throws HmsException {
         Medicine medicine = medicineRepo.findById(medicineDTO.getId()).orElseThrow(()->new HmsException("MEDICINE_NOT_FOUND"));
         Optional<Medicine> optional = medicineRepo.findByNameIgnoreCaseAndDosageIgnoreCase(medicineDTO.getName(), medicineDTO.getDosage());
-        if(optional.isPresent()){
+        if(optional.isPresent() && !optional.get().getId().equals(medicineDTO.getId())){
             throw new HmsException("MEDICINE_ALREADY_EXISTS");
         }
         medicine.setName(medicineDTO.getName());

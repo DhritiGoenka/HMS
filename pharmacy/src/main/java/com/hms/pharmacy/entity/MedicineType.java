@@ -1,5 +1,5 @@
 package com.hms.pharmacy.entity;
 
 public enum MedicineType {
-    SYRUP, TABLET, CAPSULE, INJECTION, OINTMENT, POWDER, CREAM, SPRAY, DROPS
+    SYRUP, TABLET, CAPSULE, INJECTION, OINTMENT, POWDER, CREAM, SPRAY, DROPS, OTHER
 }
