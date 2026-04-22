@@ -1,5 +1,5 @@
 import React from 'react'
-import Sidebar from '../Components/Patient/Sidebar/Sidebar'
+import Sidebar from '../Components/Admin/Sidebar/Sidebar'
 import Header from '../Components/Header/Header'
 import { Outlet } from 'react-router-dom'
 

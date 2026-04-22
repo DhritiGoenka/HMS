@@ -204,4 +204,31 @@ const medicationFrequencies = [
   "SOS"      // As needed
 ];
 
-export {bloodGroups, doctorSpecialisations, doctorDepartment, appointmentReasons, symptoms, tests, medicationFrequencies};
+const MedicineCategories = [
+  {label: "Antibiotic", value: "ANTIBIOTIC"},
+  {label: "Analgesic", value: "ANALGESIC"},
+  {label: "Antipyretic", value: "ANTIPYRETIC"},
+  {label: "Antiseptic", value: "ANTISEPTIC"},
+  {label: "Antihistamine", value: "ANTIHISTAMINE"},
+  {label: "Vtamin", value: "VITAMIN"},
+  {label: "Mineral", value: "MINERAL"},
+  {label: "Herbal", value: "HERBAL"},
+  {label: "Homeopathic", value: "HOMEOPATHIC"},
+  {label: "Other", value: "OTHER"}
+];
+
+const MedicineType = [
+  {label: "Syrup", value: "SYRUP"},
+  {label: "Tablet", value: "TABLET"},
+  {label: "Capsule", value: "CAPSULE"}, 
+  {label: "Injection", value: "INJECTION"},
+  {label: "Ointment", value: "OINTMENT"},
+  {label: "Powder", value: "POWDER"},
+  {label: "Cream", value: "CREAM"},
+  {label: "Spray", value: "SPRAY"},
+  {label: "Drops", value: "DROPS"},
+  {label: "Other", value: "OTHER"}
+];
+
+export {bloodGroups, doctorSpecialisations, doctorDepartment, appointmentReasons, 
+        symptoms, tests, medicationFrequencies, MedicineCategories, MedicineType};
